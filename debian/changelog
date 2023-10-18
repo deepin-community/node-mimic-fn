@@ -1,3 +1,39 @@
+node-mimic-fn (4.0.0-5) unstable; urgency=medium
+
+  [ Debian Janitor ]
+  * Apply multi-arch hints. + node-mimic-fn: Add Multi-Arch: foreign.
+
+ -- Jelmer Vernooĳ <jelmer@debian.org>  Mon, 21 Nov 2022 14:39:53 +0000
+
+node-mimic-fn (4.0.0-4) unstable; urgency=medium
+
+  * Team upload
+  * Better commonjs export
+
+ -- Yadd <yadd@debian.org>  Fri, 08 Apr 2022 17:27:28 +0200
+
+node-mimic-fn (4.0.0-3) unstable; urgency=medium
+
+  * Team upload
+  * Back to unstable
+
+ -- Yadd <yadd@debian.org>  Wed, 06 Apr 2022 17:03:57 +0200
+
+node-mimic-fn (4.0.0-2) experimental; urgency=medium
+
+  * Team upload
+  * Build commonjs files using mjs2cjs
+
+ -- Yadd <yadd@debian.org>  Wed, 30 Mar 2022 22:34:44 +0200
+
+node-mimic-fn (4.0.0-1) experimental; urgency=medium
+
+  * Team upload
+  * New upstream version 4.0.0
+  * Update test
+
+ -- Yadd <yadd@debian.org>  Wed, 30 Mar 2022 16:37:24 +0200
+
 node-mimic-fn (3.1.0-2) unstable; urgency=medium
 
   * Team upload

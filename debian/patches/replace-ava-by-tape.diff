@@ -1,20 +1,18 @@
 Description: replace ava bu tape
 Author: Xavier Guimard <yadd@debian.org>
 Forwarded: not-needed
-Last-Update: 2020-03-08
+Last-Update: 2022-03-30
 
 --- a/test.js
 +++ b/test.js
-@@ -1,5 +1,5 @@
+@@ -1,4 +1,4 @@
 -import test from 'ava';
--import mimicFn from '.';
-+const test = require('tape');
-+const mimicFn = require('.');
++import test from 'tape';
+ import mimicFunction from './index.js';
  
  const foo = function (bar) {
- 	return bar;
 @@ -19,6 +19,7 @@
- 	const returnValue = mimicFn(wrapper, foo);
+ 	const returnValue = mimicFunction(wrapper, foo);
  
  	t.is(returnValue, wrapper);
 +	t.end();
@@ -22,7 +20,7 @@ Last-Update: 2020-03-08
  
  test('should copy `name`', t => {
 @@ -26,6 +27,7 @@
- 	mimicFn(wrapper, foo);
+ 	mimicFunction(wrapper, foo);
  
  	t.is(wrapper.name, foo.name);
 +	t.end();
@@ -30,7 +28,7 @@ Last-Update: 2020-03-08
  
  test('should copy other properties', t => {
 @@ -33,6 +35,7 @@
- 	mimicFn(wrapper, foo);
+ 	mimicFunction(wrapper, foo);
  
  	t.is(wrapper.unicorn, foo.unicorn);
 +	t.end();
@@ -38,7 +36,7 @@ Last-Update: 2020-03-08
  
  test('should copy symbol properties', t => {
 @@ -40,6 +43,7 @@
- 	mimicFn(wrapper, foo);
+ 	mimicFunction(wrapper, foo);
  
  	t.is(wrapper[symbol], foo[symbol]);
 +	t.end();
@@ -46,19 +44,15 @@ Last-Update: 2020-03-08
  
  test('should not copy `length`', t => {
 @@ -47,6 +51,7 @@
- 	mimicFn(wrapper, foo);
+ 	mimicFunction(wrapper, foo);
  
  	t.is(wrapper.length, 0);
 +	t.end();
  });
  
  test('should keep descriptors', t => {
-@@ -55,9 +60,10 @@
- 
- 	const {length: fooLength, toString: fooToString, ...fooProperties} = Object.getOwnPropertyDescriptors(foo);
- 	const {length: wrapperLength, toString: wrapperToString, ...wrapperProperties} = Object.getOwnPropertyDescriptors(wrapper);
--	t.deepEqual(fooProperties, wrapperProperties);
-+	//t.deepEqual(fooProperties, wrapperProperties);
+@@ -58,6 +63,7 @@
+ 	t.deepEqual(fooProperties, wrapperProperties);
  	t.not(fooLength, wrapperLength);
  	t.not(fooToString, wrapperToString);
 +	t.end();
@@ -66,7 +60,7 @@ Last-Update: 2020-03-08
  
  test('should copy inherited properties', t => {
 @@ -65,6 +71,7 @@
- 	mimicFn(wrapper, foo);
+ 	mimicFunction(wrapper, foo);
  
  	t.is(wrapper.inheritedProp, foo.inheritedProp);
 +	t.end();
@@ -74,7 +68,7 @@ Last-Update: 2020-03-08
  
  test('should not delete extra configurable properties', t => {
 @@ -73,6 +80,7 @@
- 	mimicFn(wrapper, foo);
+ 	mimicFunction(wrapper, foo);
  
  	t.true(wrapper.extra);
 +	t.end();
@@ -82,7 +76,7 @@ Last-Update: 2020-03-08
  
  test('should not copy prototypes', t => {
 @@ -82,6 +90,7 @@
- 	mimicFn(wrapper, foo);
+ 	mimicFunction(wrapper, foo);
  
  	t.is(wrapper.prototype, prototype);
 +	t.end();
@@ -98,7 +92,7 @@ Last-Update: 2020-03-08
  
  test('should patch toString()', t => {
 @@ -98,6 +108,7 @@
- 	mimicFn(wrapper, foo);
+ 	mimicFunction(wrapper, foo);
  
  	t.is(wrapper.toString(), `/* Wrapped with wrapper() */\n${foo.toString()}`);
 +	t.end();
@@ -106,7 +100,7 @@ Last-Update: 2020-03-08
  
  test('should patch toString() with arrow functions', t => {
 @@ -106,6 +117,7 @@
- 	mimicFn(wrapper, arrowFn);
+ 	mimicFunction(wrapper, arrowFn);
  
  	t.is(wrapper.toString(), `/* Wrapped with wrapper() */\n${arrowFn.toString()}`);
 +	t.end();
@@ -114,7 +108,7 @@ Last-Update: 2020-03-08
  
  test('should patch toString() with bound functions', t => {
 @@ -114,6 +126,7 @@
- 	mimicFn(wrapper, boundFn);
+ 	mimicFunction(wrapper, boundFn);
  
  	t.is(wrapper.toString(), `/* Wrapped with wrapper() */\n${boundFn.toString()}`);
 +	t.end();
@@ -122,7 +116,7 @@ Last-Update: 2020-03-08
  
  test('should patch toString() with new Function()', t => {
 @@ -123,6 +136,7 @@
- 	mimicFn(wrapper, newFn);
+ 	mimicFunction(wrapper, newFn);
  
  	t.is(wrapper.toString(), `/* Wrapped with wrapper() */\n${newFn.toString()}`);
 +	t.end();
@@ -130,7 +124,7 @@ Last-Update: 2020-03-08
  
  test('should patch toString() several times', t => {
 @@ -132,6 +146,7 @@
- 	mimicFn(wrapperTwo, wrapper);
+ 	mimicFunction(wrapperTwo, wrapper);
  
  	t.is(wrapperTwo.toString(), `/* Wrapped with wrapperTwo() */\n/* Wrapped with wrapper() */\n${foo.toString()}`);
 +	t.end();
@@ -146,7 +140,7 @@ Last-Update: 2020-03-08
  
  test('should print original function with Function.prototype.toString.call()', t => {
 @@ -147,6 +163,7 @@
- 	mimicFn(wrapper, foo);
+ 	mimicFunction(wrapper, foo);
  
  	t.is(Function.prototype.toString.call(wrapper), 'function () {}');
 +	t.end();
@@ -154,7 +148,7 @@ Last-Update: 2020-03-08
  
  test('should work with String()', t => {
 @@ -154,6 +171,7 @@
- 	mimicFn(wrapper, foo);
+ 	mimicFunction(wrapper, foo);
  
  	t.is(String(wrapper), `/* Wrapped with wrapper() */\n${foo.toString()}`);
 +	t.end();
@@ -162,7 +156,7 @@ Last-Update: 2020-03-08
  
  test('should not modify toString.name', t => {
 @@ -161,6 +179,7 @@
- 	mimicFn(wrapper, foo);
+ 	mimicFunction(wrapper, foo);
  
  	t.is(wrapper.toString.name, 'toString');
 +	t.end();
@@ -170,7 +164,7 @@ Last-Update: 2020-03-08
  
  test('should work when toString() was patched by original function', t => {
 @@ -170,6 +189,7 @@
- 	mimicFn(wrapper, bar);
+ 	mimicFunction(wrapper, bar);
  
  	t.is(wrapper.toString(), `/* Wrapped with wrapper() */\n${bar.toString()}`);
 +	t.end();
@@ -178,12 +172,12 @@ Last-Update: 2020-03-08
  
  // eslint-disable-next-line max-params
 @@ -185,10 +205,11 @@
- 			mimicFn(wrapper, bar, {ignoreNonConfigurable});
+ 			mimicFunction(wrapper, bar, {ignoreNonConfigurable});
  		});
  	} else {
 -		t.notThrows(() => {
 +		t.doesNotThrow(() => {
- 			mimicFn(wrapper, bar, {ignoreNonConfigurable});
+ 			mimicFunction(wrapper, bar, {ignoreNonConfigurable});
  		});
  	}
 +	t.end();
